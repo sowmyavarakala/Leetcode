@@ -18,12 +18,12 @@ public:
         ListNode *even_start = head->next;
         
         while(even && even->next){
-            odd->next = odd->next->next; //Connect all odds
-            even->next = even->next->next;  //Connect all evens
+            odd->next = odd->next->next; 
+            even->next = even->next->next; 
             odd = odd->next;
             even = even->next;
         }
-        odd->next = even_start;   //Place the first even node after the last odd node.
+        odd->next = even_start;   
         return head; 
     }
 };
