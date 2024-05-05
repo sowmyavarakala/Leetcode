@@ -27,8 +27,6 @@
 <p>&nbsp;</p>
 <p><strong>Constraints:</strong></p>
 
-
-
 <ul>
 	<li>The number of nodes in both trees is in the range <code>[0, 100]</code>.</li>
 	<li><code>-10<sup>4</sup> &lt;= Node.val &lt;= 10<sup>4</sup></code></li>
