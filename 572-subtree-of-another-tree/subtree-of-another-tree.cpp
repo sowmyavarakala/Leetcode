@@ -11,18 +11,17 @@
  */
 class Solution {
 public:
-    bool dfs(TreeNode* s, TreeNode* r){
+    bool isSameTree(TreeNode* s, TreeNode* r){
         if(!s && !r) return true;
         if(!s || !r) return false;
-        if(s->val == r->val) return dfs(s->left,r->left) && dfs(s->right,r->right);
+        if(s->val == r->val) return isSameTree(s->left,r->left) && isSameTree(s->right,r->right);
         return false;
     }
 
     bool isSubtree(TreeNode* s, TreeNode* r) {
+
         if(!s) return false;
-
-        if(dfs(s,r)) return true;
-
+        if(isSameTree(s,r)) return true;
         return isSubtree(s->left,r) || isSubtree(s->right,r);
     }
 };
