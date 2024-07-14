@@ -6,7 +6,7 @@ private:
 
         state[course] = 1; 
         for (int neighbor : adj_list[course]) {
-            if (dfs(neighbor, adj_list, state)) return true;
+            if(dfs(neighbor, adj_list, state)) return true;
         }
         state[course] = 2;
         return false;
