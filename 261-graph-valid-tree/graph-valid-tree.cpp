@@ -1,6 +1,7 @@
 class Solution {
 public:
     bool validTree(int n, vector<vector<int>>& edges) {
+        if(edges.size() != n-1) return false;
         vector<bool> visited(n, false);
         unordered_map<int, vector<int>> adj_list(n);
         for(auto e: edges){
