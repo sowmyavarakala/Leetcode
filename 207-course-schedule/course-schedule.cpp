@@ -15,13 +15,13 @@ public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
         vector<vector<int>> adj_list(numCourses);
         vector<int> state(numCourses, 0);
-
+        
         for (auto& p : prerequisites) {
             adj_list[p[1]].push_back(p[0]);
         }
 
         for (int course = 0; course < numCourses; ++course) {
-            if (dfs(course, adj_list, state)) {
+            if (state[course] == 0 && dfs(course, adj_list, state)) {
                 return false;
             }
         }
