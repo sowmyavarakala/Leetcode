@@ -16,14 +16,12 @@ public:
         vector<vector<int>> adj_list(numCourses);
         vector<int> state(numCourses, 0);
 
-        // Build the adjacency list
         for (auto& p : prerequisites) {
             adj_list[p[1]].push_back(p[0]);
         }
 
-        // Check for cycles in all courses
         for (int course = 0; course < numCourses; ++course) {
-            if (state[course] == 0 && dfs(course, adj_list, state)) {
+            if (dfs(course, adj_list, state)) {
                 return false;
             }
         }
