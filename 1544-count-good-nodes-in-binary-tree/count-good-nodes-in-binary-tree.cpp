@@ -12,17 +12,17 @@
 class Solution {
 public:
     int count = 0;
-    void dfs(TreeNode* node, int currMax){
-        if(!node) return;
-        if(node->val >= currMax){
+    void dfs(TreeNode* root, int currMax){
+        if(!root) return;
+        if(root->val >= currMax){
             count++;
-            currMax = node->val;
+            currMax = root->val;
         }
-        dfs(node->left, currMax);
-        dfs(node->right, currMax);
+        dfs(root->left, currMax);
+        dfs(root->right, currMax);
     }
     int goodNodes(TreeNode* root) {
-        dfs(root,root->val);
+        dfs(root, root->val);
         return count;
     }
 };
