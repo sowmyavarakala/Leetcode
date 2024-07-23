@@ -23,7 +23,6 @@ public:
         
         Node* curr = head;
         while (curr) {
-            cout << curr->val << endl;
             old_to_new[curr] = new Node(curr->val);
             curr = curr->next;
         }
