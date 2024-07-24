@@ -1,6 +1,5 @@
 <h2><a href="https://leetcode.com/problems/same-tree">Same Tree</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>Given the roots of two binary trees <code>p</code> and <code>q</code>, write a function to check if they are the same or not.</p>
 
-<p>Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.</p>
 
 <p>&nbsp;</p>
 <p><strong class="example">Example 1:</strong></p>
