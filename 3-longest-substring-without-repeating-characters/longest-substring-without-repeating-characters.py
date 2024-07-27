@@ -10,5 +10,4 @@ class Solution:
                 l += 1
             char_set.add(s[r])
             ans = max(ans, r-l+1)
-        
         return ans
