@@ -9,17 +9,20 @@ public:
             return 0;
         }
         target = (sum - target) / 2;
+        int dp[nums.size() + 1][target + 1];
+        for(int i = 0; i <= nums.size(); i++) 
+            dp[i][0] = 1;
+        
+        // initializing first row by 0 (from second elemnt i.e index = 1)
+        for(int i = 1; i <= target; i++) 
+            dp[0][i] = 0;
 
-        vector<int> dp(target + 1, 0);
-        dp[0] = 1;
-
-        // Fill the DP table
-        for (int num : nums) {
-            for (int j = target; j >= num; --j) {
-                dp[j] += dp[j - num];
-            }
-        }
-
-        return dp[target];
+        for(int i = 1; i <= nums.size(); i++)
+            for(int j = 0; j <= target; j++)
+                if(nums[i - 1] <= j)
+                    dp[i][j] = dp[i - 1][j - nums[i - 1]] + dp[i - 1][j];
+                else
+                    dp[i][j] = dp[i - 1][j];
+        return dp[nums.size()][target];
     }
 };
