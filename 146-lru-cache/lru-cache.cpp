@@ -1,16 +1,16 @@
-class Node {
+class Node{
 public:
     int key;
-    int value;
-    Node* prev;
+    int val;
     Node* next;
-    Node(int k, int v): key(k), value(v), prev(nullptr), next(nullptr) {}
+    Node* prev;
+    Node(int k, int v): key(k), val(v), next(nullptr), prev(nullptr){}
 };
 
 class LRUCache {
 private:
     int capacity;
-    unordered_map<int,Node*> cache;
+    unordered_map<int, Node*> cache;
     Node* head;
     Node* tail;
 
@@ -25,13 +25,14 @@ private:
         node->next = head->next;
         node->next->prev = node;
         node->prev = head;
-        head->next = node; 
+        head->next = node;
     }
 
 public:
     LRUCache(int capacity): capacity(capacity) {
-        head = new Node(0, 0);
-        tail = new Node(0, 0);
+        
+        head = new Node(0,0);
+        tail = new Node(0,0);
         head->next = tail;
         tail->prev = head;
     }
@@ -41,7 +42,7 @@ public:
             Node* node = cache[key];
             remove(node);
             add(node);
-            return node->value;
+            return node->val;
         }
         return -1;
     }
@@ -52,10 +53,9 @@ public:
             remove(node);
             delete node;
         }
-
         Node* node = new Node(key, value);
-        add(node);
         cache[key] = node;
+        add(node);
 
         if(cache.size() > capacity){
             Node* lru = tail->prev;
