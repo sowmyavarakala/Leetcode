@@ -1,4 +1,5 @@
 class Solution:
+    # using stack
     def calculate(self, s: str) -> int:
         num = 0
         sign = 1
