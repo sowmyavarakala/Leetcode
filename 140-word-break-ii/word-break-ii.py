@@ -1,33 +1,35 @@
 class Solution:
-    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
-        word_set = set(wordDict)
-        n = len(s)
+    def __init__(self):
+        self.memo = {}  # Memoization cache
 
-        dp = [[] for _ in range(n + 1)]
-        dp[0] = [""]
+    def solve(self, s, wordSet):
+        # If result for the current substring is already computed, return it
+        if s in self.memo:
+            return self.memo[s]
+        
+        # Base case: if the string is empty, return a list with an empty string
+        if not s:
+            return [""]
 
-        # Populate the DP table
-        for i in range(1, n + 1):
-            for j in range(i):
-                if dp[j] and s[j:i] in word_set:
-                    dp[i].append(s[j:i])
+        sentences = []  # Store all possible sentences from this point
 
-        def backtrack(end):
-            if end == 0:
-                return [""]
-
-            sentences = []
-            for word in dp[end]:
-                for sentence in backtrack(end - len(word)):
+        # Try all possible prefixes of the string
+        for i in range(1, len(s) + 1):
+            prefix = s[:i]  # Get the prefix from 0 to i
+            if prefix in wordSet:  # Check if the prefix is a valid word
+                # Recurse for the remaining part of the string
+                remaining_sentences = self.solve(s[i:], wordSet)
+                # Combine the current prefix with each sentence from the remaining part
+                for sentence in remaining_sentences:
                     if sentence:
-                        sentences.append(sentence + " " + word)
+                        sentences.append(prefix + " " + sentence)
                     else:
-                        sentences.append(word)
-            return sentences
-        
-        if not dp[n]:
-            return []
+                        sentences.append(prefix)
 
-        return backtrack(n)
+        # Store the result in memo to avoid redundant computation
+        self.memo[s] = sentences
+        return sentences
 
-        
+    def wordBreak(self, s, wordDict):
+        wordSet = set(wordDict)  # Convert wordDict to a set for O(1) lookups
+        return self.solve(s, wordSet)  # Start backtracking from the full string
