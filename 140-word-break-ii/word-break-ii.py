@@ -24,6 +24,9 @@ class Solution:
                     else:
                         sentences.append(word)
             return sentences
+        
+        if not dp[n]:
+            return []
 
         return backtrack(n)
 
