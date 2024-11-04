@@ -1,67 +1,57 @@
 class Solution:
-    def largestIsland(self, grid: List[List[int]]) -> int:
+    def largestIsland(self, grid):
         if not grid or not grid[0]:
             return 0
-
+        
         m, n = len(grid), len(grid[0])
+        island_sizes = {}
+        island_id = 2  # Start with an ID of 2 to avoid conflict with 1s and 0s in the grid
 
         def dfs(i, j, island_id):
-            stack = [(i, j)]
-            size = 0
-            while stack:
-                x, y = stack.pop()
-                if x < 0 or x >= m or y < 0 or y >= n or grid[x][y] == 0 or visited[x][y]:
-                    continue
-                visited[x][y] = True
-                size += 1
-                island_map[(x, y)] = island_id
-                stack.append((x - 1, y))  # Up
-                stack.append((x + 1, y))  # Down
-                stack.append((x, y - 1))  # Left
-                stack.append((x, y + 1))  # Right
+            # Base case: out of bounds or water
+            if i < 0 or i >= m or j < 0 or j >= n or grid[i][j] != 1:
+                return 0
+            
+            # Mark the current cell with the island ID
+            grid[i][j] = island_id
+            size = 1
+            
+            # Explore neighbors
+            size += dfs(i - 1, j, island_id)
+            size += dfs(i + 1, j, island_id)
+            size += dfs(i, j - 1, island_id)
+            size += dfs(i, j + 1, island_id)
+            
             return size
-
-        # Step 1: Find all islands, assign them unique IDs, and calculate their sizes
-        visited = [[False] * n for _ in range(m)]
-        island_map = {}  # Map from cell to island ID
-        island_sizes = {}  # Map from island ID to its size
-        island_id = 0
-
+        
+        # Step 1: Find all islands and their sizes
         for i in range(m):
             for j in range(n):
-                if grid[i][j] == 1 and not visited[i][j]:
-                    size = dfs(i, j, island_id)
-                    island_sizes[island_id] = size
+                if grid[i][j] == 1:
+                    island_size = dfs(i, j, island_id)
+                    island_sizes[island_id] = island_size
                     island_id += 1
-
-        # Step 2: Calculate the maximum island size after flipping one `0` to `1`
-        max_island_size = max(island_sizes.values(), default=0)
-
+        
+        # Step 2: Try changing each 0 to 1 and calculate the maximum possible island size
+        max_island = max(island_sizes.values(), default=0)  # Initial maximum island size
+        
         for i in range(m):
             for j in range(n):
                 if grid[i][j] == 0:
-                    # Collect unique neighboring island IDs
-                    seen_islands = set()
-                    for x, y in [(i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)]:
-                        if 0 <= x < m and 0 <= y < n and grid[x][y] == 1:
-                            island_id = island_map[(x, y)]
-                            seen_islands.add(island_id)
-
-                    # Calculate the potential new island size
-                    new_size = 1  # Starting with the flipped cell itself
-                    new_size += sum(island_sizes[island_id] for island_id in seen_islands)
-                    max_island_size = max(max_island_size, new_size)
-
-        return max_island_size
-
-
-# # Example usage:
-# grid = [
-#     [1, 0, 0, 1],
-#     [1, 0, 0, 1],
-#     [0, 1, 1, 1],
-#     [0, 0, 1, 1]
-# ]
-
-# print("The maximum size of the island with one flip is:", maxIslandSizeWithOneFlip(grid))
+                    seen = set()  # To avoid double-counting the same island
+                    
+                    # Check the four directions
+                    for ni, nj in [(i-1, j), (i+1, j), (i, j-1), (i, j+1)]:
+                        if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] > 1:
+                            seen.add(grid[ni][nj])
+                    
+                    # Calculate the total size if this 0 is flipped
+                    new_size = 1  # The flipped 0 becomes 1, contributing size 1
+                    for island in seen:
+                        new_size += island_sizes[island]
+                    
+                    # Update the maximum size
+                    max_island = max(max_island, new_size)
+        
+        return max_island
         
