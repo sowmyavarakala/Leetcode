@@ -7,7 +7,6 @@ public:
             }
         }
         
-        int left = 0, right = matrix.size()-1;
         for(int i=0;i<matrix.size();i++){
             int left = 0, right = matrix.size()-1;
             while(left < right){
