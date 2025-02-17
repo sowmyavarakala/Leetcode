@@ -1,12 +1,25 @@
 class Solution:
-    def punishmentNumber(self, n: int) -> int:
-        arr = [1,9,10,36,45,55,82,91,99,100,235,297,369,370,379,414,
-               657,675,703,756,792,909,918,945,964,990,991,999,1000]
-        total = 0
-        for num in arr:
-            if num <= n:
-                total += num * num
-            else:
-                break
-        return total
+    def canPartition(self, s: str, target: int) -> bool:
+        if not s and target == 0:
+            return True
+        if target < 0:
+            return False
         
+        # Try all possible pivot points
+        for i in range(len(s)):
+            left = s[:i + 1]  # Keep the left part
+            right = s[i + 1:]  # Recurse for the right part
+            left_num = int(left)
+            
+            if self.canPartition(right, target - left_num):
+                return True
+        
+        return False
+
+    def punishmentNumber(self, n: int) -> int:
+        total_sum = 0
+        for num in range(1, n + 1):
+            sqr = num * num
+            if self.canPartition(str(sqr), num):
+                total_sum += sqr
+        return total_sum
