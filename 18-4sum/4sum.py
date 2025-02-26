@@ -17,8 +17,6 @@ class Solution:
                     currentSum = nums[i] + nums[j] + nums[left] + nums[right]
                     if currentSum == target:
                         result.append([nums[i], nums[j], nums[left], nums[right]])
-                        
-                        # Move pointers and avoid duplicates
                         left += 1
                         right -= 1
                         while left < right and nums[left] == nums[left - 1]:
